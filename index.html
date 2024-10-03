@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>AFM Testing Page</title>
+    <script>
+        let startTime;
+
+        function startTypingTimer() {
+            if (!startTime) {
+                startTime = new Date();
+            }
+        }
+
+        function stopTimer(event) {
+            event.preventDefault();
+            const endTime = new Date();
+            const timeElapsed = (endTime - startTime) / 1000;
+
+            alert(`Timp pentru completare: ${timeElapsed.toFixed(2)} secunde`);
+
+            const formData = new FormData(event.target);
+            formData.forEach((value, key) => {
+                console.log(`${key}: ${value}`);
+            });
+
+            event.target.reset();
+            startTime = null;
+        }
+
+        window.onload = function() {
+            const formInputs = document.querySelectorAll("input[type='text'], input[type='email'], input[type='tel'], input[type='file']");
+            formInputs.forEach(input => input.addEventListener('input', startTypingTimer));
+            formInputs.forEach(input => input.addEventListener('change', startTypingTimer));
+
+            const form = document.querySelector('form');
+            form.addEventListener('submit', stopTimer);
+        };
+    </script>
+</head>
+<body>
+    <form action="/submit" method="POST">
+        <div class="first-container">
+            <div class="flex-column">
+                <label for="name">Nume:</label><br>
+                <input type="text" id="name" name="name" required placeholder="Popescu"><br><br>
+            </div>
+
+            <div class="flex-column">
+                <label for="surname">Prenume:</label><br>
+                <input type="text" id="surname" name="surname" required placeholder="Ion"><br><br>
+            </div>
+        </div>
+
+        <label for="email">E-mail:</label><br>
+        <input type="email" id="email" name="email" required placeholder="email@gmail.com"><br><br>
+
+        <label for="phone">Telefon:</label><br>
+        <input type="tel" id="phone" name="phone" required placeholder="0723456829" pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number"><br><br>
+
+        <div class="second-container">
+            <div class="flex-column">
+                <label for="file1">Document 1:</label><br>
+                <input type="file" id="file1" name="file1" required><br><br>
+            </div>
+
+            <div class="flex-column">
+                <label for="file2">Document 2:</label><br>
+                <input type="file" id="file2" name="file2" required><br><br>
+            </div>
+
+            <div class="flex-column">
+                <label for="file3">Document 3:</label><br>
+                <input type="file" id="file3" name="file3" required><br><br>
+            </div>
+
+            <div class="flex-column">
+                <label for="file4">Document 4:</label><br>
+                <input type="file" id="file4" name="file4" required><br><br>
+            </div>
+        </div>
+
+        <input type="submit" value="Trimite">
+    </form>
+</body>
+</html>
